@@ -36,9 +36,11 @@
                               
                             </ul>
                         </div>
+                        {% if profile.user == request.user%}
                         <div class"p-5" >
                             <a class="btn btn-primary w-100" href="{% url 'accounts:profile_edit' %}" > Edit Profile </a>
                         </div>
+                        {% endif%}
                     </div>
                     
                 </div>

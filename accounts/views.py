@@ -3,6 +3,7 @@ from .forms import SignUpForm,ProfileForm,UserForm
 from django.contrib.auth import authenticate,login
 from .models import Profile
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def signup(request):
     if request.method == "POST":
@@ -18,13 +19,13 @@ def signup(request):
         form = SignUpForm()
     return render(request,'registration/signup.html',{'form':form})
 
-
-
-def profile(request):
-    profile = Profile.objects.get(user = request.user)
+def profile(request,id):
+    profile = Profile.objects.filter(user__id = id).first()
+    if not profile:
+        return redirect ('/jobs/')
     return render(request,'accounts/profile.html',{'profile':profile})
 
-
+@login_required
 def profile_edit(request):
     profile = Profile.objects.get(user = request.user)
     if request.method == "POST":
